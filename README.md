@@ -48,3 +48,6 @@ data = response.json
 print("Public key:", data["public_key"])
 print("Private key:", data["Private_key"])
 `
+## UML Diagram
+
+<img width="462" height="538" alt="image" src="https://github.com/user-attachments/assets/e1e9566b-511d-42c7-b26f-9ae06359aeba" />
