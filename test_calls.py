@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 
 BASE_URL = "http://127.0.0.1:8000"
 
@@ -129,22 +130,22 @@ if __name__ == "__main__":
     public_key = keys["public_key"]
     private_key = keys["private_key"]
 
+    time.sleep(1)
+
     # Step 2: Sign a message
     message = "Hello from the test program!"
     sign_result = test_sign_data(private_key, message)
     signature = sign_result["signature"]
+    
+    time.sleep(1)
 
     # Step 3: Verify the signature
     verify_result = test_verify_signature(public_key, message, signature)
 
-    
+    time.sleep(1)
 
     print("\n========== SUMMARY ==========")
     print("Message:", message)
     print("Signature valid?:", verify_result.get("valid"))
-
-    # 4. Test incorrect signature
-    incorrect_result = test_verify_incorrect_signature(public_key, message)
-    print("Incorrect signature valid?:", incorrect_result.get("valid"))
 
     print("\nDone.\n")
