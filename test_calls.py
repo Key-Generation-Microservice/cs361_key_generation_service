@@ -7,12 +7,12 @@ BASE_URL = "http://127.0.0.1:8000"
 # 1. Test: Generate Key Pair
 # -----------------------------
 def test_generate_keypair():
-    print("=== Testing /generateKeyPair ===")
+    print("=== Testing /generate_key_pair ===")
 
     payload = {"algorithm": "Ed25519"}
 
     response = requests.post(
-        f"{BASE_URL}/generateKeyPair",
+        f"{BASE_URL}/generate_key_pair",
         json=payload
     )
 
@@ -31,7 +31,7 @@ def test_generate_keypair():
 # 2. Test: Sign Data
 # -----------------------------
 def test_sign_data(private_key, message):
-    print("\n=== Testing /signData ===")
+    print("\n=== Testing /sign_data ===")
 
     payload = {
         "private_key": private_key,
@@ -39,7 +39,7 @@ def test_sign_data(private_key, message):
     }
 
     response = requests.post(
-        f"{BASE_URL}/signData",
+        f"{BASE_URL}/sign_data",
         json=payload
     )
 
@@ -59,7 +59,7 @@ def test_sign_data(private_key, message):
 # 3. Test: Verify Signature
 # -----------------------------
 def test_verify_signature(public_key, message, signature):
-    print("\n=== Testing /verifySignature ===")
+    print("\n=== Testing /verify_signature ===")
 
     payload = {
         "public_key": public_key,
@@ -68,7 +68,7 @@ def test_verify_signature(public_key, message, signature):
     }
 
     response = requests.post(
-        f"{BASE_URL}/verifySignature",
+        f"{BASE_URL}/verify_signature",
         json=payload
     )
 
@@ -85,7 +85,7 @@ def test_verify_signature(public_key, message, signature):
 
 
 def test_verify_incorrect_signature(public_key, message):
-    print("\n=== Testing /verifySignature with INCORRECT signature ===")
+    print("\n=== Testing /verify_signature with INCORRECT signature ===")
 
     other_keys = test_generate_keypair()
     wrong_private = other_keys["private_key"]
@@ -100,7 +100,7 @@ def test_verify_incorrect_signature(public_key, message):
     }
 
     response = requests.post(
-        f"{BASE_URL}/verifySignature",
+        f"{BASE_URL}/verify_signature",
         json=payload
     )
 

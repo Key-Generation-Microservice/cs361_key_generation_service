@@ -4,11 +4,9 @@ from nacl.exceptions import BadSignatureError
 
 def generate_ed25519_keypair():
 
-    # generate key
     signing_key = SigningKey.generate()
     verify_key = signing_key.verify_key
 
-    # encode to Base64 strings for transport
     private_b64 = signing_key.encode(encoder=Base64Encoder).decode("utf-8")
     public_b64 = verify_key.encode(encoder=Base64Encoder).decode("utf-8")
 
