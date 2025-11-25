@@ -21,4 +21,4 @@ class SignResponse(BaseModel):
     signature: str
 
 class VerifyResponse(BaseModel):
-    valid: bool 
+    is_valid: bool 
