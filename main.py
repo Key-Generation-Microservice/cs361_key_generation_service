@@ -19,10 +19,20 @@ def generate_keypair(req: GenerateRequest):
 
 @app.post("/signData", response_model=SignResponse, tags=["sign"])
 def sign_data(req: SignRequest):
-    signature_b64 = sign_ed25519(req.private_key, req.message)
-    return SignResponse(signature=signature_b64)
+    try:
+        signature_b64 = sign_ed25519(req.private_key, req.message)
+        return SignResponse(signature=signature_b64)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="An unexpected error occurred during signing")
 
 @app.post("/verifySignature", response_model=VerifyResponse, tags=["verify"])
 def verify_signature(req: VerifyRequest):
-    valid = verify_ed25519(req.public_key, req.message, req.signature)
-    return VerifyResponse(valid=valid)
+    try:
+        valid = verify_ed25519(req.public_key, req.message, req.signature)
+        return VerifyResponse(valid=valid)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="An unexpected error occurred during verification")

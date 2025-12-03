@@ -15,18 +15,24 @@ def generate_ed25519_keypair():
     return public_b64, private_b64
 
 def sign_ed25519(private_key_b64: str, message: str) -> str:
-    signing_key = SigningKey(private_key_b64.encode("utf-8"), encoder=Base64Encoder)
-    message_bytes = message.encode("utf-8")
-    signature = signing_key.sign(message_bytes).signature
-    return Base64Encoder.encode(signature).decode("utf-8")
+    try:
+        signing_key = SigningKey(private_key_b64.encode("utf-8"), encoder=Base64Encoder)
+        message_bytes = message.encode("utf-8")
+        signature = signing_key.sign(message_bytes).signature
+        return Base64Encoder.encode(signature).decode("utf-8")
+    except Exception as e:
+        raise ValueError(f"Failed to sign message: {str(e)}")
 
 
 def verify_ed25519(public_key_b64: str, message: str, signature_b64: str) -> bool:
-    verify_key = VerifyKey(public_key_b64.encode("utf-8"), encoder=Base64Encoder)
-    message_bytes = message.encode("utf-8")
-    signature_bytes = Base64Encoder.decode(signature_b64.encode("utf-8"))
     try:
-        verify_key.verify(message_bytes, signature_bytes)
-        return True
-    except BadSignatureError:
-        return False
+        verify_key = VerifyKey(public_key_b64.encode("utf-8"), encoder=Base64Encoder)
+        message_bytes = message.encode("utf-8")
+        signature_bytes = Base64Encoder.decode(signature_b64.encode("utf-8"))
+        try:
+            verify_key.verify(message_bytes, signature_bytes)
+            return True
+        except BadSignatureError:
+            return False
+    except Exception as e:
+        raise ValueError(f"Failed to verify signature: {str(e)}")
